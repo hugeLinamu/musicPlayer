@@ -59,3 +59,16 @@ export const mapTrackPlayableStatus = (tracks: any[], previleges = []) => {
         return item
     })
 }
+
+
+export const changeAppearance = (appearance: string) => {
+    if (appearance === 'auto' || appearance === undefined) {
+        // 通过媒体查询 检测用户是否有将系统的主题色设置为亮色或者暗色
+        appearance = window.matchMedia('prefers-color-scheme: dark') ? 'dark' : 'light'
+    }
+    // 给body 设置 data-theme属性
+    document.querySelector('body')?.setAttribute('data-theme', appearance)
+    document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute('content', appearance === 'dark' ? '#121212' : '#fff');
+}

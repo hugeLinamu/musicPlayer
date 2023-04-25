@@ -14,7 +14,7 @@ if (!localStorage.getItem('settings')) {
 export const useSettingStore = defineStore('setting', () => {
     const result = localStorage.getItem('settings') as string
     const settings = reactive(JSON.parse(result))
-
+    // 发现页面的歌单分类
     function togglePlaylistCategory(name: string) {
         const index = settings.enabledPlaylistCategories.indexOf(name)
         if (index !== -1) {
@@ -24,11 +24,15 @@ export const useSettingStore = defineStore('setting', () => {
         }
         localStorage.setItem('settings', JSON.stringify(settings))
     }
-
+    // 更新设置
+    function updateSettings( val:any) {
+        localStorage.setItem('settings', JSON.stringify(val))
+    }
 
     return {
         settings,
-        togglePlaylistCategory
+        togglePlaylistCategory,
+        updateSettings,
     }
 })
 

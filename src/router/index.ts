@@ -1,4 +1,6 @@
 import { RouteRecordRaw, createWebHistory, createRouter } from 'vue-router'
+import { isLoggedIn } from '@/utils/auth';
+const isLogin = isLoggedIn();
 
 const routes: RouteRecordRaw[] = [
     {
@@ -15,6 +17,14 @@ const routes: RouteRecordRaw[] = [
         path: '/library',
         name: 'Library',
         component: () => import('@/views/Library.vue'),
+        beforeEnter(to, from, next) {
+            if (isLogin) {
+                next();
+            } else {
+                next('/login');
+            }
+            next()
+        }
     },
     {
         path: '/search:keywords',
@@ -32,19 +42,24 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/Login.vue'),
     },
     {
-        path:'/login/account',
-        name:'Account',
-        component:()=>import('@/views/LoginAccount.vue')
+        path: '/login/account',
+        name: 'Account',
+        component: () => import('@/views/LoginAccount.vue')
     },
     {
-        path:'/login/account',
-        name:'Username',
-        component:()=>import('@/views/LoginUsername.vue')
+        path: '/login/account',
+        name: 'Username',
+        component: () => import('@/views/LoginUsername.vue')
     },
     {
-        path:'/mv/:id',
-        name:'MV',
-        component:()=>import('@/views/Mv.vue')
+        path: '/mv/:id',
+        name: 'MV',
+        component: () => import('@/views/Mv.vue')
+    },
+    {
+        path:'/setting',
+        name: 'Setting',
+        component: () => import('@/views/Setting.vue')
     }
 ]
 
