@@ -61,14 +61,28 @@ export const mapTrackPlayableStatus = (tracks: any[], previleges = []) => {
 }
 
 
-export const changeAppearance = (appearance: string) => {
-    if (appearance === 'auto' || appearance === undefined) {
-        // 通过媒体查询 检测用户是否有将系统的主题色设置为亮色或者暗色
-        appearance = window.matchMedia('prefers-color-scheme: dark') ? 'dark' : 'light'
+// 格式化图片
+export const resizeImage = (url: string, size: number = 512) => {
+    if (!url) return ''
+    // url = url.replace('http', 'https') 不能直接使用http 替换为https 因为如果是 https 就会变成 httpss
+    const protocol = url.slice(0, 5)
+    if (protocol !== 'https') {
+        url = protocol + url.slice(4)
     }
-    // 给body 设置 data-theme属性
-    document.querySelector('body')?.setAttribute('data-theme', appearance)
-    document
-        .querySelector('meta[name="theme-color"]')
-        ?.setAttribute('content', appearance === 'dark' ? '#121212' : '#fff');
+    return url + '?param=' + size + 'y' + size
 }
+
+
+// 用代码写一个formatTime函数
+export const formatTime = (time: number) => {
+    const data = new Date(time)
+    const YYYY = data.getFullYear()
+    const MM = data.getMonth() + 1
+    const DD = data.getDate()
+    const hh = data.getHours()
+    const mm = data.getMinutes()
+    const ss = data.getSeconds()
+    return `${YYYY}-${MM}-${DD} ${hh}:${mm}:${ss}`
+}
+
+

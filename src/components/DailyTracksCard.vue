@@ -60,6 +60,8 @@ function goToDailyTracks() {
         left: 0;
         width: 100%;
         animation: move 30s infinite;
+        //animation-direction: alternate是什么?
+        //https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation-direction
         animation-direction: alternate;
         z-index: -1;
     }

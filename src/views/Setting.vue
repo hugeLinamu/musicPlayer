@@ -249,16 +249,16 @@
 import { storeToRefs } from 'pinia';
 import { isLoggedIn, } from '@/utils/auth';
 import { useSettingStore } from '@/store/index'
-import { changeAppearance } from '@/utils/common'
-
-import { ref, reactive, toRefs , watch } from 'vue'
+import useThemeColor from '../hooks/useThemeColor'
+import { ref, reactive, toRefs, watch } from 'vue'
 import SvgIcon from '@/components/SvgIcon.vue';
 // 触发更新
 const useSettings = useSettingStore()
-const { settings } = storeToRefs(useSettings)
+const { settings } = storeToRefs(useSettings)   // settings.value 是一个 Proxy 对象
+const { appearance } = useThemeColor()
 const {
     lang,                       // 语言
-    appearance,                 // 外观
+    // appearance,                 // 外观
     musicLanguage,              // 音乐语种偏好
     musicQuality,               // 音质选择
     lyricsBackground,           // 显示歌词背景
@@ -270,14 +270,18 @@ const {
     enableReversedMode,         // 启用倒序播放功能 (实验性功能)
     nyancatStyle                //nyancatStyle
 } = toRefs(settings.value)
+
 // 对setting的监听
-watch(settings.value,()=>{
+watch(settings.value, () => {
     useSettings.updateSettings(settings.value)
+    // console.log(JSON.parse(localStorage.getItem('settings')!))
+    console.log(settings.value, "settings.value")
+    console.log(appearance.value, "appearance.value")
 })
 
-watch(()=>settings.value.appearance,(val)=>{
-    changeAppearance(val)
-})
+// watch(() => settings.value.appearance, (val) => {
+//     matchColor()
+// })
 
 </script>
 

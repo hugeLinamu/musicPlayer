@@ -7,21 +7,53 @@
         <div class="artist">{{ subTitle }}</div>
       </div>
     </div>
+    <!-- 专辑名称 -->
+    <div v-if="showAlbumName" class="ablum">
+      <router-link v-if="trackItem.albumId" :to="`/album/${trackItem.albumId}`">{{ trackItem.albumName }}</router-link>
+    </div>
+    <!-- 歌曲喜欢 | 不喜欢 -->
+    <div v-if="showLikeButton" class="actions">
+      <button @click="likeThisSong">
+        <svg-icon icon-class="heart"  
+        :style="{
+            visibility: focus && !isLiked ? 'visible' : 'hidden',
+          }"></svg-icon>
+      </button>
+    </div>
+
+    <!--  时间 -->
   </div>
 </template>
 
 <script setup lang='ts'>
-import { withDefaults, computed, ref } from 'vue'
+import { withDefaults, computed, ref, reactive } from 'vue'
 
 interface tracklistItemProps {
   activeId: number,
   track: any,
+  type: string,
   highlightPlayingTrack?: boolean,
 }
 const props = withDefaults(defineProps<tracklistItemProps>(), {
   activeId: 0,
   highlightPlayingTrack: true,
 
+})
+// console.log(props.track, 'props.track');
+
+const trackItem = reactive({
+  type: props.type,                  // 类型
+  albumName: props.track.al.name,    // 专辑名
+  albumId: props.track.al.id,        // 专辑id
+
+})
+
+
+const showAlbumName = computed(() => {
+  return trackItem.type !== 'album' && trackItem.type !== 'tracklist'
+})
+const showLikeButton = computed(()=>{
+  return trackItem.type !== 'tracklist' && trackItem.type !== 'cloudDisk'
 })
 
 const hover = ref<boolean>(false)
@@ -54,6 +86,10 @@ const title = computed(() => {
 const subTitle = computed(() => {
   return props.track.ar[0].name
 })
+
+const likeThisSong = () => {
+  console.log('likeThisSong');
+}
 
 
 

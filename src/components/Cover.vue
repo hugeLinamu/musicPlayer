@@ -43,14 +43,14 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    ridus: 12,
-    alwaysShowShadow: false,
-    playButtonSize: 22,
-    alwaysShowPlayButton: false,
-    coverHover: true,
-    shadowMargin: 12,
-    clickCoverToPlay: false,
-    fixedSize: 0
+    ridus: 12,                     
+    alwaysShowShadow: false,       
+    playButtonSize: 22,            
+    alwaysShowPlayButton: false,   
+    coverHover: true,              
+    shadowMargin: 12,              
+    clickCoverToPlay: false,       
+    fixedSize: 0,                  
 });
 
 const router = useRouter()
@@ -74,7 +74,7 @@ const imageStyles = computed(() => {
         styles.width = props.fixedSize + 'px'
         styles.height = props.fixedSize + 'px'
     }
-    props.type === 'artist' ? styles.borderRadius = styles.borderRadius = '50%' : ''
+    props.type === 'artist' ? (styles.borderRadius = styles.borderRadius = '50%') : ''
     return styles;
 })
 const playButtonStyles = computed(() => {
@@ -92,8 +92,11 @@ function play() {
 }
 
 function goto() {
+    const name = props.type.substring(0, 1).toUpperCase() + props.type.substring(1);
+    console.log(name,'name');
+    
     router.push({
-        name: props.type,
+        name,
         params: {
             id: props.id
         }

@@ -22,6 +22,7 @@
         </ContextMenu>
         <TrackListItem 
             v-for="track, index in  tracks" 
+            :type="props.type"
             :key="track" :track="track" 
             @contextmenu.prevent="rightClick($event, track, index)"
             :activeId = menuActive.id
@@ -52,7 +53,7 @@ interface tracklistProps {
     itemKey?: string
 }
 const props = withDefaults(defineProps<tracklistProps>(), {
-    type: 'tracklist',
+    type: 'tracklist',          // tracklist | playlist | album
     id: 0,
     dbclickTrackFunc: 'default',
     albumObject: {} as any,
@@ -64,6 +65,7 @@ const props = withDefaults(defineProps<tracklistProps>(), {
 
 const trackListStyle = computed(() => {
     return {
+        display:'grid',
         gap: '4px',
         'grid-template-columns': `repeat(${props.columnNumber}, 1fr)`
     }
@@ -108,7 +110,5 @@ function closeMenu(){
 </script>
 
 <style scoped lang="scss">
-.track-list {
-    display: grid;
-}
+
 </style>
